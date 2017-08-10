@@ -1,3 +1,6 @@
+# !!!Application under development. Not ready for production usage!!!
+Milestone 1.0 progress can be viewed [here](http://github.com/BatPio/PhotoMap/milestone/1)
+
 # Photo Map
 
 ## Building the app
