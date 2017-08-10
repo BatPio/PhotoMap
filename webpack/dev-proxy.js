@@ -30,16 +30,10 @@ proxy.on('proxyRes', function (proxyRes, req, res, options) {
 	}
 });
 
-var pathTest = new RegExp(config.appId + '(/build/.*.js)');
-// block the production css
-var ignoreTest = new RegExp(config.appId + '(/build/.*.css)');
+var pathTest = new RegExp(config.appId + '(/js/main.js)');
 
 app.use('/', function (req, res) {
 	var path = req.path.substr(ocRoot.pathname.length);
-	if (ignoreTest.test(path)) {
-		res.end();
-		return;
-	}
 	var matches = path.match(pathTest);
 	if (matches) {
 		req.url = matches[1];

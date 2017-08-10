@@ -2,7 +2,7 @@
 script('photomap', 'leaflet');
 script('photomap', 'leaflet.markercluster');
 script('photomap', 'Leaflet.Photo');
-script('photomap', '../build/main');
+script('photomap', 'main');
 
 style('photomap', 'leaflet');
 style('photomap', 'Leaflet.Photo');

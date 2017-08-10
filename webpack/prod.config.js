@@ -6,7 +6,7 @@ var CleanPlugin = require('clean-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var strip = require('strip-loader');
 
-var relativeAssetsPath = '../build';
+var relativeAssetsPath = '../js';
 var assetsPath = path.join(__dirname, relativeAssetsPath);
 
 module.exports = {
@@ -19,7 +19,7 @@ module.exports = {
 		path: assetsPath,
 		filename: '[name].js',
 		chunkFilename: '[name]-[chunkhash].js',
-		publicPath: '/dist/'
+		publicPath: '/js/'
 	},
 	module: {
 		loaders: [

@@ -1,8 +1,9 @@
 var path = require('path');
 var webpack = require('webpack');
-var assetsPath = path.resolve(__dirname, '../build');
+var assetsPath = path.resolve(__dirname, '../js');
 var host = 'localhost';
 var port = parseInt(process.env.PORT) + 1 || 3001;
+var appId = 'photomap'
 
 module.exports = {
 	ocRoot: 'http://localhost/',
@@ -22,7 +23,7 @@ module.exports = {
 		path: assetsPath,
 		filename: '[name].js',
 		chunkFilename: '[name]-[chunkhash].js',
-		publicPath: 'http://' + host + ':' + port + '/build/'
+		publicPath: '/js/'
 	},
 	module: {
 		loaders: [
@@ -64,7 +65,7 @@ module.exports = {
 			__CLIENT__: true,
 			__SERVER__: false,
 			__DEVELOPMENT__: true,
-			__DEVTOOLS__: true  // <-------- DISABLE redux-devtools HERE
+			__DEVTOOLS__: false  // <-------- DISABLE redux-devtools HERE
 		})
 	]
 };

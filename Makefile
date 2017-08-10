@@ -39,7 +39,8 @@
 #        "build": "node node_modules/gulp-cli/bin/gulp.js"
 #    },
 
-app_name=$(notdir $(CURDIR))
+app_name=photomap
+project_dir=$(CURDIR)/../$(app_name)
 build_tools_directory=$(CURDIR)/build/tools
 source_build_directory=$(CURDIR)/build/artifacts/source
 source_package_name=$(source_build_directory)/$(app_name)
@@ -115,41 +116,33 @@ dist:
 source:
 	rm -rf $(source_build_directory)
 	mkdir -p $(source_build_directory)
-	tar cvzf $(source_package_name).tar.gz ../$(app_name) \
-	--exclude-vcs \
-	--exclude="../$(app_name)/build" \
-	--exclude="../$(app_name)/js/node_modules" \
-	--exclude="../$(app_name)/node_modules" \
-	--exclude="../$(app_name)/*.log" \
-	--exclude="../$(app_name)/js/*.log" \
+	tar --exclude-vcs \
+	--exclude=$(project_dir)/build \
+	--exclude=$(project_dir)/node_modules \
+	-cvzf $(source_package_name).tar.gz $(project_dir)
 
 # Builds the source package for the app store, ignores php and js tests
 .PHONY: appstore
 appstore:
 	rm -rf $(appstore_build_directory)
 	mkdir -p $(appstore_build_directory)
-	tar cvzf $(appstore_package_name).tar.gz ../$(app_name) \
-	--exclude-vcs \
-	--exclude="../$(app_name)/build" \
-	--exclude="../$(app_name)/tests" \
-	--exclude="../$(app_name)/Makefile" \
-	--exclude="../$(app_name)/*.log" \
-	--exclude="../$(app_name)/phpunit*xml" \
-	--exclude="../$(app_name)/composer.*" \
-	--exclude="../$(app_name)/js/node_modules" \
-	--exclude="../$(app_name)/js/tests" \
-	--exclude="../$(app_name)/js/test" \
-	--exclude="../$(app_name)/js/*.log" \
-	--exclude="../$(app_name)/js/package.json" \
-	--exclude="../$(app_name)/js/bower.json" \
-	--exclude="../$(app_name)/js/karma.*" \
-	--exclude="../$(app_name)/js/protractor.*" \
-	--exclude="../$(app_name)/package.json" \
-	--exclude="../$(app_name)/bower.json" \
-	--exclude="../$(app_name)/karma.*" \
-	--exclude="../$(app_name)/protractor\.*" \
-	--exclude="../$(app_name)/.*" \
-	--exclude="../$(app_name)/js/.*" \
+	tar --exclude-vcs \
+	--exclude=$(project_dir)/build \
+	--exclude=$(project_dir)/js_src \
+	--exclude=$(project_dir)/node_modules \
+	--exclude=$(project_dir)/webpack \
+	--exclude=$(project_dir)/.gitattributes \
+	--exclude=$(project_dir)/.gitignore \
+	--exclude=$(project_dir)/.travis.yml \
+	--exclude=$(project_dir)/.babelrc \
+	--exclude=$(project_dir)/.phpunit* \
+	--exclude=$(project_dir)/.scrutinizer.yml \
+	--exclude=$(project_dir)/CONTRIBUTING.md \
+	--exclude=$(project_dir)/package.json \
+	--exclude=$(project_dir)/configure.js \
+	--exclude=$(project_dir)/screenshots \
+	--exclude=$(project_dir)/Makefile \
+	-cvzf $(appstore_package_name).tar.gz $(project_dir)
 
 # Command for running JS and PHP tests. Works for package.json files in the js/
 # and root directory. If phpunit is not installed systemwide, a copy is fetched
