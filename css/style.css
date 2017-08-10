@@ -1,0 +1,30 @@
+#visibleFolders {
+    height: 100%;
+    overflow-y: scroll;
+}
+
+#visibleFolders .folder-item {
+    margin: 1px;
+}
+
+#visibleFolders .collapsible a {
+    width: 185px;
+    display: inline-block;
+}
+
+#visibleFolders .collapsible .folder-link{
+    display: inline-block;
+    width: 44px;
+    height: 44px;
+    padding: 0px;
+    text-align: center;
+    vertical-align: top;
+}
+
+#visibleFolders .collapsible .folder-link .icon{
+    background-color: #aaa;
+    width: 35px;
+    height: 35px;
+    display: inline-block;
+    vertical-align: middle;
+}

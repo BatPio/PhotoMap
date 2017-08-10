@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>photomap</id>
+    <name>Photo Map</name>
+    <summary>Shows geotagged photos on map</summary>
+    <description><![CDATA[Shows geotagged photos on map]]></description>
+    <licence>agpl</licence>
+    <author mail="prbator@gmail.com" >Piotr Bator</author>
+    <version>0.0.2</version>
+    <namespace>PhotoMap</namespace>
+    <category>multimedia</category>
+    <types>
+      <filesystem/>
+    </types>
+    <dependencies>
+      <nextcloud min-version="11" max-version="12"/>
+    </dependencies>
+    <commands>
+		  <command>OCA\PhotoMap\Command\RescanPhotos</command>
+    </commands>
+</info>
