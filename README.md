@@ -3,6 +3,8 @@ Milestone 1.0 progress can be viewed [here](http://github.com/BatPio/PhotoMap/mi
 
 # Photo Map
 
+![screenshot1](https://raw.githubusercontent.com/BatPio/PhotoMap/master/screenshots/1.png)
+
 ## Building the app
 
 The app can be built by using the provided Makefile by running:
