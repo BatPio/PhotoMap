@@ -75,4 +75,17 @@ export default class MapView {
         return [...idsSet];
     }
 
+    showFirstRunMessage() {
+        var latlng = [25, 0];
+        this.map.setView(latlng, 2);
+        this.showPopup(latlng, "<h2>Nie dodałeś jeszcze zdięć?</h2><p>Dodaj zdięcia do chmury, jeśli zawierają dane o położeniu geograficznym zostaną automatycznie przypięte do mapy.</p><p>Jeśli zdięcia są w chmurze możesz przypiąć je do mapy używając polecenia: <b>occ&nbsp;photomap:rescanPhotos</b>.</p>");
+    }
+
+    showPopup(latlng, message) {
+        L.popup()
+        .setLatLng(latlng)
+        .setContent(message)
+        .openOn(this.map);
+    }
+
 }

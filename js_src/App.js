@@ -105,8 +105,13 @@ export default class App {
             'type': 'GET',
             'success': (function(_app) {
                 return function(response) {
-                    _app.albumsInfoCache.addAlbumInfoToCache(response[1]);
-                    _app.showPhotosOnMap(response[0]);
+                    if (response[0].length == 0) {
+                        _app.albumsView.hide();
+                        _app.mapView.showFirstRunMessage();
+                    } else {
+                        _app.albumsInfoCache.addAlbumInfoToCache(response[1]);
+                        _app.showPhotosOnMap(response[0]);
+                    }
                 }
             })(this)
         });

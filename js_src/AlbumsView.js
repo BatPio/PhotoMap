@@ -38,4 +38,12 @@ export default class AlbumsView {
         return this.filerAlbumsToMapCheckbox.checked;
     }
 
+    hide() {
+        document.getElementById('app-navigation').style.display = 'none';
+    }
+
+    show() {
+        document.getElementById('app-navigation').style.display = 'block';
+    }
+
 }
