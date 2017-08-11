@@ -7,7 +7,7 @@
     <description><![CDATA[Shows geotagged photos on map]]></description>
     <licence>agpl</licence>
     <author mail="prbator@gmail.com" >Piotr Bator</author>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <namespace>PhotoMap</namespace>
     <category>multimedia</category>
     <types>

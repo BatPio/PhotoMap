@@ -44,7 +44,7 @@ class GeophotoService {
         $filesById = [];
         $foldersById = [];
         foreach ($photoEntities as $photoEntity) {
-            $path = \OC\Files\Filesystem::getPath($photoEntity->getPhotoId());
+            $path = \OC\Files\Filesystem::getPath($photoEntity->getFileId());
             $photoFile = \OC\Files\Filesystem::getFileInfo($path);
             $photoFolder = $userFolder->get($path)->getParent();
             $file_object = new \stdClass();

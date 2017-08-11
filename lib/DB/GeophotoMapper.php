@@ -33,6 +33,11 @@ class GeophotoMapper extends Mapper {
         return $this->findEntities($sql, [$userId], $limit, $offset);
     }
 
+    public function deleteByFileId($fileId) {
+        $sql = 'DELETE FROM `*PREFIX*photomap_photos` where `file_id` = ?';
+        return $this->execute($sql, [$fileId]);
+    }
+
     public function deleteAll($userId) {
         $sql = 'DELETE FROM `*PREFIX*photomap_photos` where `user_id` = ?';
         return $this->execute($sql, [$userId]);

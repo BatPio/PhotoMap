@@ -52,11 +52,16 @@ class PhotofilesService {
         }
     }
 
+    public function deleteFile(Node $file) {
+        $this->photoMapper->deleteByFileId($file->getId());
+        $this->logger->warning("FIle hook deleted" . $file->getName(). " fr:" . $file->getId());
+    }
+
     private function addPhoto($photo, $userId) {
         $geoExif = $this->getGeoExif($photo);
         if (!is_null($geoExif) AND !is_null($geoExif->lat)) {
             $photoEntity = new Geophoto();
-            $photoEntity->setPhotoId($photo->getId());
+            $photoEntity->setFileId($photo->getId());
             $photoEntity->setLat($geoExif->lat);
             $photoEntity->setLng($geoExif->lng);
             $photoEntity->setUserId($userId);

@@ -16,7 +16,7 @@
 				<primary>true</primary>
 			</field>
 			<field>
-				<name>photo_id</name>
+				<name>file_id</name>
 				<type>integer</type>
 				<notnull>true</notnull>
 				<length>10</length>
