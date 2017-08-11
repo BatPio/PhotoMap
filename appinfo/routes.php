@@ -13,7 +13,6 @@ return [
 	   ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
 
        //geo photos
-	   ['name' => 'geophotos#index', 'url' => '/geoPhotos', 'verb' => 'GET'],
        ['name' => 'geophotos#getPhotosFromDb', 'url' => '/geoPhotos/all', 'verb' => 'GET'],
        
        //photo files
