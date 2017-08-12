@@ -17,6 +17,8 @@ import GeoPhotoHelper from './GeoPhotoHelper.js';
 
 export default class App {
 
+    TRACK_VISIBLITY_ZOOM_LEVEL = 12;
+
     constructor() {
         this.albumsInfoCache = new AlbumInfosCache();
         this.albumsView = new AlbumsView(this);
@@ -24,9 +26,17 @@ export default class App {
         this.gpHelper = new GeoPhotoHelper();
     }
 
+    onShowTracksChanged() {
+        this.renderTracks();
+    }
+
+    onFilterAlbumsToMapChanged() {
+        this.renderAlbumsList();
+    }
 
     onMapsBoundMoved() {
         this.renderAlbumsList();
+        this.renderTracks();
     }
 
     onAlbumPhotosNeeded(albumId) {
@@ -38,6 +48,19 @@ export default class App {
         var boundPoints = this.gpHelper.calculateGeoPhotosBoundPoints(geoPhotos);
         if (boundPoints) {
             this.mapView.fitBounds(boundPoints[0], boundPoints[1]);
+        }
+    }
+
+    renderTracks() {
+        if (this.albumsView.isShowAlbumTracksChecked() && this.mapView.getZoomLevel() >= this.TRACK_VISIBLITY_ZOOM_LEVEL) {
+            var visibleAlbumsIds = this.getMapVisibleAlbumsIds();
+            for (var i = 0; i < visibleAlbumsIds.length; i++) {
+                var geoPhotos = this.albumsInfoCache.getAlbumGeoPhotos(visibleAlbumsIds[i]);
+                var tracks = this.gpHelper.calculateTrack(geoPhotos);
+                this.mapView.showTrackList(tracks);
+            }
+        } else {
+            this.mapView.hideTracks();
         }
     }
 
@@ -105,17 +128,22 @@ export default class App {
     renderAlbumsList() {
         var albumsInfosList;
         if (this.albumsView.isFilterAlbumToMapChecked()) {
-            var visibleMarkers = this.mapView.getVisibleMarkers();
-            var idsSet = new Set();
-            visibleMarkers.forEach(function(item){
-                idsSet.add(item.albumId);
-            });
-            albumsInfosList = this.albumsInfoCache.getManyAlbumsInfo([...idsSet]);
+            var visibleAlbumsIds = this.getMapVisibleAlbumsIds();
+            albumsInfosList = this.albumsInfoCache.getManyAlbumsInfo(visibleAlbumsIds);
         } else {
             albumsInfosList = this.albumsInfoCache.getAllAlbumsInfo();
         }
         var albumViewInfosList = this.prepareAlbumInfosForView(albumsInfosList);
         this.albumsView.renderAlbumsList(albumViewInfosList);
+    }
+
+    getMapVisibleAlbumsIds() {
+        var visibleMarkers = this.mapView.getVisibleMarkers();
+        var idsSet = new Set();
+        visibleMarkers.forEach(function(item){
+            idsSet.add(item.albumId);
+        });
+        return [...idsSet];
     }
 
     callForImages() {

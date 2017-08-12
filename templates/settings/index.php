@@ -5,7 +5,8 @@
 		></button>
 	</div>
 	<div id="app-settings-content">
-		<label><input id="filter-albums-to-map" type="checkbox">Filter albums to visible on map</label>
+		<label><input id="filter-albums-to-map" type="checkbox">Tylko albumy widoczne na mapie</label>
+		<label><input id="show-album-tracks" type="checkbox">Pokaż ścieżkę albumu</label>
 		<!-- Your settings in here -->
 	</div>
 </div>

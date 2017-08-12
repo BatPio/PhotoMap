@@ -37,6 +37,10 @@
 				<notnull>true</notnull>
 				<length>64</length>
 			</field>
+			<field>
+				<name>taken_date</name>
+				<type>integer</type>
+			</field>
 		</declaration>
 	</table>
 </database>

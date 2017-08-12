@@ -34,4 +34,31 @@ export default class GeoPhotoHelper {
         }
     }
 
+    calculateTrack(geoPhotos) {
+        var tracksData = [];
+        for (var i = 0; i < geoPhotos.length; i++) {
+            var geoPhoto = geoPhotos[i];
+            var date = new Date(geoPhoto.takenDate * 1000);
+            var trackKey = geoPhotos[i].folderId + '_' + date.getFullYear() + date.getMonth() + date.getDay();
+            if (!tracksData[trackKey]) {
+                tracksData[trackKey] = [];
+            }
+            tracksData[trackKey].push({
+                lat: geoPhoto.lat,
+                lng: geoPhoto.lng,
+                takenDate: geoPhoto.takenDate
+            });
+        }
+        var tracks = [];
+        for (i in tracksData) {
+            if (tracksData.hasOwnProperty(i)) {
+                tracksData[i].sort(function(a ,b) {
+                    return a.takenDate - b.takenDate;
+                });
+                tracks.push(tracksData[i]);
+            }
+        }
+        return tracks;
+    }
+
 }

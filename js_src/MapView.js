@@ -12,6 +12,8 @@
 
 export default class MapView {
 
+    TRACK_COLORS_ARRAY = ['#3772FF', '#3BB273', '#E1BC29', '#7768AE', '#AC3931'];
+
     constructor(app) {
         this.app = app;
         this.initMap();
@@ -37,6 +39,8 @@ export default class MapView {
 
         this.map = map;
         this.layer = photoLayer;
+        this.trackLayer = L.layerGroup([]);
+        this.trackLayer.addTo(map);
     }
 
     initEventListeners() {
@@ -71,6 +75,39 @@ export default class MapView {
         this.map.fitBounds(this.layer.getBounds());
     }
 
+    showTrackList (tracks) {
+        for (var i = 0; i < tracks.length ; i++) {
+            this.showTrack(tracks[i], this.TRACK_COLORS_ARRAY[i % this.TRACK_COLORS_ARRAY.length]);
+        }
+    }
+
+    showTrack(trackPoints, color) {
+        var pointList = [];
+        for (var i = 0; i < trackPoints.length ; i++) {
+            var tPoint = trackPoints[i];
+            pointList.push(new L.LatLng(tPoint.lat, tPoint.lng));
+        }
+        var trackPolyline = new L.Polyline(pointList, {
+            color: color,
+            weight: 3,
+            opacity: 0.5,
+            smoothFactor: 1
+        });
+        trackPolyline.setText('  ►  ', {repeat: true,
+            offset: 8,
+            attributes: {
+                'fill': color,
+                'font-weight': 'bold',
+                'font-size': '24'}
+            }
+        );
+        this.trackLayer.addLayer(trackPolyline);
+    }
+
+    hideTracks() {
+        this.trackLayer.clearLayers();
+    }
+
     getVisibleMarkers() {
         if (this.markers === undefined) {
             return undefined;
@@ -92,6 +129,10 @@ export default class MapView {
         .setLatLng(latlng)
         .setContent(message)
         .openOn(this.map);
+    }
+
+    getZoomLevel() {
+        return this.map.getZoom();
     }
 
 }

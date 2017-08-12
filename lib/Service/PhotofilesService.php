@@ -58,15 +58,15 @@ class PhotofilesService {
     }
 
     private function addPhoto($photo, $userId) {
-        $geoExif = $this->getGeoExif($photo);
-        if (!is_null($geoExif) AND !is_null($geoExif->lat)) {
+        $exif = $this->getExif($photo);
+        if (!is_null($exif) AND !is_null($exif->lat)) {
             $photoEntity = new Geophoto();
             $photoEntity->setFileId($photo->getId());
-            $photoEntity->setLat($geoExif->lat);
-            $photoEntity->setLng($geoExif->lng);
+            $photoEntity->setLat($exif->lat);
+            $photoEntity->setLng($exif->lng);
             $photoEntity->setUserId($userId);
+            $photoEntity->setTakenDate($exif->takenDate);
             $this->photoMapper->insert($photoEntity);
-            $this->logger->warning("FIle hook inseted" . $photo->getName(). " fr:" . $userId);
         }
     }
 
@@ -126,7 +126,7 @@ class PhotofilesService {
 		return false;
 	}
 
-    private function getGeoExif($file) {
+    private function getExif($file) {
         $path = $file->getStorage()->getLocalFile($file->getInternalPath());
         $exif = exif_read_data($path);
         //Check photos are on the earth
@@ -162,7 +162,10 @@ class PhotofilesService {
                 //calculate the decimal degree
                 $file_object->lat = $LatM * ($gps['LatDegree'] + ($gps['LatMinute'] / 60) + ($gps['LatgSeconds'] / 3600));
                 $file_object->lng = $LongM * ($gps['LongDegree'] + ($gps['LongMinute'] / 60) + ($gps['LongSeconds'] / 3600));
-                return $file_object;
+                if (isset($exif["DateTimeOriginal"])) {
+                    $file_object->takenDate = strtotime($exif["DateTimeOriginal"]);
+                }
+                 return $file_object;
             }
         }
         return null;

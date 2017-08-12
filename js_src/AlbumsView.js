@@ -19,6 +19,19 @@ export default class AlbumsView {
     constructor(app) {
         this.app = app;
         this.filerAlbumsToMapCheckbox = document.getElementById('filter-albums-to-map');
+        var filerAlbumsToMapCheckboxListener = (function(_app){
+            return function (albumId) {
+                _app.onFilterAlbumsToMapChanged();
+            }
+        })(this.app); 
+        this.filerAlbumsToMapCheckbox.addEventListener('change', filerAlbumsToMapCheckboxListener);
+        this.showTracksCheckbox = document.getElementById('show-album-tracks');
+        var showTracksCheckboxListener = (function(_app){
+            return function (albumId) {
+                _app.onShowTracksChanged();
+            }
+        })(this.app); 
+        this.showTracksCheckbox.addEventListener('change', showTracksCheckboxListener);
     }
 
     renderAlbumsList(albums) {
@@ -49,6 +62,10 @@ export default class AlbumsView {
 
     isFilterAlbumToMapChecked() {
         return this.filerAlbumsToMapCheckbox.checked;
+    }
+
+    isShowAlbumTracksChecked() {
+        return this.showTracksCheckbox.checked;
     }
 
     hide() {
