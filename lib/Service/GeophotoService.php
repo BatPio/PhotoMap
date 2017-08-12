@@ -48,6 +48,7 @@ class GeophotoService {
             $photoFile = \OC\Files\Filesystem::getFileInfo($path);
             $photoFolder = $userFolder->get($path)->getParent();
             $file_object = new \stdClass();
+            $file_object->fileId = $photoEntity->getFileId();
             $file_object->lat = $photoEntity->getLat();
             $file_object->lng = $photoEntity->getLng();
             $file_object->folderId = $photoFolder->getId();

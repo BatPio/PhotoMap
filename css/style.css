@@ -7,6 +7,10 @@
     margin: 1px;
 }
 
+#visibleFolders .collapsible .collapse {
+    z-index: 1;
+}
+
 #visibleFolders .collapsible a {
     width: 185px;
     display: inline-block;
@@ -22,9 +26,9 @@
 }
 
 #visibleFolders .collapsible .folder-link .icon{
-    background-color: #aaa;
-    width: 35px;
-    height: 35px;
+    width: 36px;
+    height: 32px;
     display: inline-block;
     vertical-align: middle;
+    background-image: url('images/gallery.svg');
 }

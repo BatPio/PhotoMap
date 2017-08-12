@@ -85,6 +85,7 @@ class PhotofilesService {
         $notes = [];
         foreach($FilesList as $File) {
             $file_object = new \stdClass();
+            $file_object->id = $File->getId();
             $file_object->path = $this->normalizePath($File);
             $notes[] = $file_object;
         }

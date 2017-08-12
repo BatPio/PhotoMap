@@ -27,8 +27,21 @@ export default class AlbumsView {
                 _app.onAlbumPhotosNeeded(albumId);
             }
         })(this.app);
+        var onAlbumClick = (function(_app){
+            return function (albumId) {
+                console.log(albumId);
+                _app.onAlbumClicked(albumId);
+            }
+        })(this.app); 
+        var onPhotoClick = (function(_app){
+            return function (albumId, photoId) {
+                console.log(albumId+":"+photoId);
+                _app.onAlbumItemClicked(albumId, photoId);
+            }
+        })(this.app); 
+        
         ReactDOM.render(
-            <FoldersList list={albums} onItemsNeededFunc={onItemsNeededFunc}/>,
+            <FoldersList list={albums} onItemsNeededFunc={onItemsNeededFunc} onFolderClick={onAlbumClick} onFolderItemClick={onPhotoClick}/>,
             document.getElementById('visibleFolders')
         );
 

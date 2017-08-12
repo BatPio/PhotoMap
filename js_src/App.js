@@ -13,6 +13,7 @@
 import AlbumInfosCache from './AlbumInfosCache'
 import AlbumsView from './AlbumsView'
 import MapView from './MapView'
+import GeoPhotoHelper from './GeoPhotoHelper.js';
 
 export default class App {
 
@@ -20,6 +21,7 @@ export default class App {
         this.albumsInfoCache = new AlbumInfosCache();
         this.albumsView = new AlbumsView(this);
         this.mapView = new MapView(this);
+        this.gpHelper = new GeoPhotoHelper();
     }
 
 
@@ -29,6 +31,19 @@ export default class App {
 
     onAlbumPhotosNeeded(albumId) {
         this.callForAlbumPhotos(albumId, this.albumsInfoCache.getAlbumInfo(albumId).path);
+    }
+
+    onAlbumClicked(albumId) {
+        var geoPhotos = this.albumsInfoCache.getAlbumGeoPhotos(albumId);
+        var boundPoints = this.gpHelper.calculateGeoPhotosBoundPoints(geoPhotos);
+        if (boundPoints) {
+            this.mapView.fitBounds(boundPoints[0], boundPoints[1]);
+        }
+    }
+
+    onAlbumItemClicked(albumId, photoId) {
+        var pInfo = this.albumsInfoCache.getGeoPhotoInfo(albumId, photoId);
+        this.mapView.centerMapOnPoint(pInfo.lat, pInfo.lng);
     }
 
     generateThumbnailUrl(filename) {
@@ -56,7 +71,7 @@ export default class App {
                 lng: photos[i].lng,
                 url: this.generateImageUrl(photos[i].filename),
                 thumbnail: this.generateThumbnailUrl(photos[i].filename),
-                id: photos[i].folderId
+                albumId: photos[i].folderId
             });
         }
         return markers;
@@ -67,7 +82,7 @@ export default class App {
         albumInfosList.forEach(function(item) {
             albumViewInfosList.push({
                 id: item.id,
-                label: item.path,
+                label: item.name,
                 link: this.generateGalleryUrl(item.path.substring(1, item.path.length)),
                 filesList : item.filesList ? this.prepareAlbumPhotoInfosForView(item.filesList) : undefined
             });
@@ -79,6 +94,7 @@ export default class App {
         var photoViewInfosList = [];
         filesList.forEach(function(item) {
             photoViewInfosList.push({
+                id: item.id,
                 name: item.name,
                 thumb: this.generateThumbnailUrl(item.path)
             });
@@ -86,12 +102,15 @@ export default class App {
         return photoViewInfosList;
     }
 
-
     renderAlbumsList() {
         var albumsInfosList;
         if (this.albumsView.isFilterAlbumToMapChecked()) {
-            var visibleAlbumsIds = this.mapView.getVisibleMarkersIds();
-            albumsInfosList = this.albumsInfoCache.getManyAlbumsInfo(visibleAlbumsIds);
+            var visibleMarkers = this.mapView.getVisibleMarkers();
+            var idsSet = new Set();
+            visibleMarkers.forEach(function(item){
+                idsSet.add(item.albumId);
+            });
+            albumsInfosList = this.albumsInfoCache.getManyAlbumsInfo([...idsSet]);
         } else {
             albumsInfosList = this.albumsInfoCache.getAllAlbumsInfo();
         }
@@ -109,7 +128,8 @@ export default class App {
                         _app.albumsView.hide();
                         _app.mapView.showFirstRunMessage();
                     } else {
-                        _app.albumsInfoCache.addAlbumInfoToCache(response[1]);
+                        _app.albumsInfoCache.addGeoPhotosToCache(response[0]);
+                        _app.albumsInfoCache.addAlbumInfosToCache(response[1]);
                         _app.showPhotosOnMap(response[0]);
                     }
                 }

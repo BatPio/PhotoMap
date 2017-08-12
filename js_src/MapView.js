@@ -48,6 +48,17 @@ export default class MapView {
         this.map.on('moveend', onMapMoveEnd);
     }
 
+    centerMapOnPoint(lat, lng) {
+        this.map.setView(new L.LatLng(lat, lng), 18);
+    }
+
+    fitBounds(swPoint, nePoint) {
+        var southWest = L.latLng(swPoint[0], swPoint[1]),
+            northEast = L.latLng(nePoint[0], nePoint[1]),
+            bounds = L.latLngBounds(southWest, northEast);
+        this.map.fitBounds(bounds);
+    }
+
     /**
      * 
      * @param {*} images array of markers: {id, lat, lng, url, thumbnail}
@@ -60,19 +71,14 @@ export default class MapView {
         this.map.fitBounds(this.layer.getBounds());
     }
 
-    getVisibleMarkersIds() {
+    getVisibleMarkers() {
         if (this.markers === undefined) {
             return undefined;
         }
         var _map = this.map;
-        var markersWithinBounds = this.markers.filter(function(marker) {
+        return this.markers.filter(function(marker) {
             return _map.getBounds().contains(L.latLng(marker.lat, marker.lng));
         });
-        var idsSet = new Set();
-        markersWithinBounds.forEach(function(item){
-            idsSet.add(item.id);
-        });
-        return [...idsSet];
     }
 
     showFirstRunMessage() {

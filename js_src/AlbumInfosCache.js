@@ -16,7 +16,7 @@ export default class AlbumInfosCache {
         this.infosArray = {};
     }
 
-    addAlbumInfoToCache(albumInfo) {
+    addAlbumInfosToCache(albumInfo) {
         for (var property in albumInfo) {
             if (albumInfo.hasOwnProperty(property)) {
                 var albumId = property;
@@ -28,6 +28,21 @@ export default class AlbumInfosCache {
                 folderEntry.path = albumInfo[albumId].path;
                 folderEntry.name = albumInfo[albumId].name;
             }
+        }
+    }
+
+    addGeoPhotosToCache(geoPhotos) {
+         for (var i = 0; i < geoPhotos.length; i++) {
+            var albumId = geoPhotos[i].folderId;
+            if (!this.infosArray[albumId]) {
+                this.infosArray[albumId] = {};
+            }
+            var folderInfo = this.infosArray[albumId];
+            if (!folderInfo.geoPhotos) {
+                folderInfo.geoPhotos = [];
+            }
+            var geoPhotosInfo = folderInfo.geoPhotos;
+            geoPhotosInfo.push(geoPhotos[i]);
         }
     }
 
@@ -58,6 +73,20 @@ export default class AlbumInfosCache {
             array.push(this.infosArray[key]);
             return array;
         }, []);
+    }
+
+    getAlbumGeoPhotos(albumId) {
+        return this.getAlbumInfo(albumId).geoPhotos;
+    }
+
+    getGeoPhotoInfo(albumId, photoId) {
+        var photos = this.getAlbumInfo(albumId).geoPhotos;
+        for (var i = 0; i < photos.length; i++) {
+            console.log(photos[i]);
+            if (photos[i].fileId == photoId) {
+                return photos[i];
+            }
+        }
     }
 
 }
