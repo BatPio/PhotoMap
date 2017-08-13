@@ -53,7 +53,7 @@ class GeophotoService {
             $file_object->lng = $photoEntity->getLng();
             $file_object->takenDate = $photoEntity->getTakenDate();
             $file_object->folderId = $photoFolder->getId();
-            $file_object->filename = $this->normalizePath($photoFile);
+            $file_object->path = $this->normalizePath($photoFile);
             $filesById[] = $file_object;
             $folder_object = new \stdClass();
             $folder_object->id = $photoFolder->getId();

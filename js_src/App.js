@@ -19,6 +19,8 @@ export default class App {
 
     TRACK_VISIBLITY_ZOOM_LEVEL = 12;
 
+    SHOW_ONLY_GEOPHOTOS_IN_ALBUM = true;
+
     constructor() {
         this.albumsInfoCache = new AlbumInfosCache();
         this.albumsView = new AlbumsView(this);
@@ -92,8 +94,8 @@ export default class App {
             markers.push({
                 lat: photos[i].lat,
                 lng: photos[i].lng,
-                url: this.generateImageUrl(photos[i].filename),
-                thumbnail: this.generateThumbnailUrl(photos[i].filename),
+                url: this.generateImageUrl(photos[i].path),
+                thumbnail: this.generateThumbnailUrl(photos[i].path),
                 albumId: photos[i].folderId
             });
         }
@@ -103,11 +105,17 @@ export default class App {
     prepareAlbumInfosForView(albumInfosList) {
         var albumViewInfosList = [];
         albumInfosList.forEach(function(item) {
+            var photosList = undefined;
+            if(this.SHOW_ONLY_GEOPHOTOS_IN_ALBUM) {
+                photosList = this.prepareAlbumPhotoInfosForView(item.geoPhotos);
+            } else {
+                photosList = item.filesList ? this.prepareAlbumPhotoInfosForView(item.filesList) : undefined;
+            }
             albumViewInfosList.push({
                 id: item.id,
                 label: item.name,
                 link: this.generateGalleryUrl(item.path.substring(1, item.path.length)),
-                filesList : item.filesList ? this.prepareAlbumPhotoInfosForView(item.filesList) : undefined
+                filesList : photosList
             });
         }, this);
         return albumViewInfosList;
@@ -117,7 +125,7 @@ export default class App {
         var photoViewInfosList = [];
         filesList.forEach(function(item) {
             photoViewInfosList.push({
-                id: item.id,
+                id: item.fileId,
                 name: item.name,
                 thumb: this.generateThumbnailUrl(item.path)
             });
