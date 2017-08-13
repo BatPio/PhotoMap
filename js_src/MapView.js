@@ -101,17 +101,19 @@ export default class MapView {
         }
         var trackPolyline = new L.Polyline(pointList, {
             color: color,
-            weight: 3,
-            opacity: 0.5,
+            weight: 2,
+            opacity: 1,
             smoothFactor: 1
         });
         trackPolyline.trackId = id;
         trackPolyline.setText('  ►  ', {repeat: true,
             offset: 8,
+            center: false,
             attributes: {
+                'dy': '6',
                 'fill': color,
                 'font-weight': 'bold',
-                'font-size': '24'}
+                'font-size': '22'}
             }
         );
         this.trackLayer.addLayer(trackPolyline);
