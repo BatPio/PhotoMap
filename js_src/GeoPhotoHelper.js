@@ -34,12 +34,15 @@ export default class GeoPhotoHelper {
         }
     }
 
-    calculateTrack(geoPhotos) {
+    calculateTrack(geoPhotos, ignoreTrackIds) {
         var tracksData = [];
         for (var i = 0; i < geoPhotos.length; i++) {
             var geoPhoto = geoPhotos[i];
             var date = new Date(geoPhoto.takenDate * 1000);
             var trackKey = geoPhotos[i].folderId + '_' + date.getFullYear() + date.getMonth() + date.getDay();
+            if (ignoreTrackIds && ignoreTrackIds.includes(trackKey)) {
+                continue;
+            }
             if (!tracksData[trackKey]) {
                 tracksData[trackKey] = [];
             }
@@ -49,16 +52,26 @@ export default class GeoPhotoHelper {
                 takenDate: geoPhoto.takenDate
             });
         }
-        var tracks = [];
+
         for (i in tracksData) {
             if (tracksData.hasOwnProperty(i)) {
                 tracksData[i].sort(function(a ,b) {
                     return a.takenDate - b.takenDate;
                 });
-                tracks.push(tracksData[i]);
             }
         }
-        return tracks;
+        return tracksData;
+    }
+
+    calculateOrphanedTracks(albumsIds, tracksIds) {
+        var ids = [];
+        for (var i = 0; i < tracksIds.length; i++) {
+            var trackAlbumId = Number(tracksIds[i].substring(0, tracksIds[i].indexOf('_')));
+            if(!albumsIds.includes(trackAlbumId)) {
+                ids.push(tracksIds[i]);
+            }
+        }
+        return ids;
     }
 
 }

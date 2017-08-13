@@ -76,12 +76,24 @@ export default class MapView {
     }
 
     showTrackList (tracks) {
-        for (var i = 0; i < tracks.length ; i++) {
-            this.showTrack(tracks[i], this.TRACK_COLORS_ARRAY[i % this.TRACK_COLORS_ARRAY.length]);
+        var i = 0;
+        for (var id in tracks) {
+            if (tracks.hasOwnProperty(id)) {
+                this.showTrack(id, tracks[id], this.TRACK_COLORS_ARRAY[i % this.TRACK_COLORS_ARRAY.length]);
+                i++;
+            }
         }
     }
 
-    showTrack(trackPoints, color) {
+    getTrackIds() {
+        var ids = [];
+        this.trackLayer.eachLayer(function (layer) {
+            ids.push(layer.trackId);
+        });
+        return ids;
+    }
+
+    showTrack(id, trackPoints, color) {
         var pointList = [];
         for (var i = 0; i < trackPoints.length ; i++) {
             var tPoint = trackPoints[i];
@@ -93,6 +105,7 @@ export default class MapView {
             opacity: 0.5,
             smoothFactor: 1
         });
+        trackPolyline.trackId = id;
         trackPolyline.setText('  ►  ', {repeat: true,
             offset: 8,
             attributes: {
@@ -104,8 +117,16 @@ export default class MapView {
         this.trackLayer.addLayer(trackPolyline);
     }
 
-    hideTracks() {
-        this.trackLayer.clearLayers();
+    hideTracks(ids) {
+        if(ids) {
+            this.trackLayer.eachLayer(function (layer) {
+                if (ids.includes(layer.trackId)) {
+                    this.removeLayer(layer);
+                }
+            }, this.trackLayer);
+        } else {
+            this.trackLayer.clearLayers();
+        }
     }
 
     getVisibleMarkers() {

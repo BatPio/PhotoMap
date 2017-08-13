@@ -56,9 +56,16 @@ export default class App {
     renderTracks() {
         if (this.albumsView.isShowAlbumTracksChecked() && this.mapView.getZoomLevel() >= this.TRACK_VISIBLITY_ZOOM_LEVEL) {
             var visibleAlbumsIds = this.getMapVisibleAlbumsIds();
+            var currentTracksIds = this.mapView.getTrackIds();
+            var tracksOutOfMapBoundsIds = this.gpHelper.calculateOrphanedTracks(visibleAlbumsIds, currentTracksIds);
+            if (tracksOutOfMapBoundsIds && tracksOutOfMapBoundsIds.length > 0) {
+                //Hide tracks out of map bounds.
+                console.log(tracksOutOfMapBoundsIds);
+                this.mapView.hideTracks(tracksOutOfMapBoundsIds);
+            }
             for (var i = 0; i < visibleAlbumsIds.length; i++) {
                 var geoPhotos = this.albumsInfoCache.getAlbumGeoPhotos(visibleAlbumsIds[i]);
-                var tracks = this.gpHelper.calculateTrack(geoPhotos);
+                var tracks = this.gpHelper.calculateTrack(geoPhotos, currentTracksIds);
                 this.mapView.showTrackList(tracks);
             }
         } else {
