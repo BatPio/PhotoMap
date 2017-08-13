@@ -142,7 +142,10 @@ export default class MapView {
     showFirstRunMessage() {
         var latlng = [25, 0];
         this.map.setView(latlng, 2);
-        this.showPopup(latlng, "<h2>Nie dodałeś jeszcze zdięć?</h2><p>Dodaj zdięcia do chmury, jeśli zawierają dane o położeniu geograficznym zostaną automatycznie przypięte do mapy.</p><p>Jeśli zdięcia są w chmurze możesz przypiąć je do mapy używając polecenia: <b>occ&nbsp;photomap:rescanPhotos</b>.</p>");
+        var message = "<h2>" + t('photomap', 'You have not added photos yet?') + "</h2>" +
+            "<p>"+ t('photomap', 'Add photos to the cloud. Photos containing data about the geographical location will be automatically pinned to the map.') + "</p>" +
+            "<p>"+ t('photomap', 'If photos already are in cloud, You can pin them to the map using command {command}', {"command" : "<b>occ&nbsp;photomap:rescanPhotos</b>"}, undefined, {escape: false}) + "</p>";
+        this.showPopup(latlng, message);
     }
 
     showPopup(latlng, message) {

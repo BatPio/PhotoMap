@@ -1,0 +1,8 @@
+{ "translations": {
+    "Only map visible albums" : "Tylko albumy widoczne na mapie",
+    "Show album track" : "Pokaż ścieżkę albumu",
+    "You have not added photos yet?" : "Nie dodałeś jeszcze zdjęć?",
+    "Add photos to the cloud. Photos containing data about the geographical location will be automatically pinned to the map." : "Dodaj zdjęcia do chmury, jeśli zawierają dane o położeniu geograficznym zostaną automatycznie przypięte do mapy.",
+    "If photos already are in cloud , You can pin them to the map using command {command}" : "Jeśli zdjęcia są w chmurze możesz przypiąć je do mapy skanując poleceniem: {command}"
+},"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
+}
