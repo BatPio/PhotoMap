@@ -38,7 +38,7 @@ export default class GeoPhotoHelper {
         var tracksData = [];
         for (var i = 0; i < geoPhotos.length; i++) {
             var geoPhoto = geoPhotos[i];
-            var date = new Date(geoPhoto.takenDate * 1000);
+            var date = new Date(geoPhoto.dateTaken * 1000);
             var trackKey = geoPhotos[i].folderId + '_' + date.getFullYear() + date.getMonth() + date.getDay();
             if (ignoreTrackIds && ignoreTrackIds.includes(trackKey)) {
                 continue;
@@ -49,14 +49,14 @@ export default class GeoPhotoHelper {
             tracksData[trackKey].push({
                 lat: geoPhoto.lat,
                 lng: geoPhoto.lng,
-                takenDate: geoPhoto.takenDate
+                dateTaken: geoPhoto.dateTaken
             });
         }
 
         for (i in tracksData) {
             if (tracksData.hasOwnProperty(i)) {
                 tracksData[i].sort(function(a ,b) {
-                    return a.takenDate - b.takenDate;
+                    return a.dateTaken - b.dateTaken;
                 });
             }
         }

@@ -20,13 +20,13 @@ class Geophoto extends Entity {
     protected $lat;
     protected $lng;
     protected $userId;
-    protected $takenDate;
+    protected $dateTaken;
 
     public function __construct() {
         // add types in constructor
         $this->addType('fileId', 'integer');
         $this->addType('lat', 'float');
         $this->addType('lng', 'float');
-        $this->addType('takenDate', 'integer');
+        $this->addType('dateTaken', 'integer');
     }
 }

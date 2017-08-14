@@ -65,7 +65,7 @@ class PhotofilesService {
             $photoEntity->setLat($exif->lat);
             $photoEntity->setLng($exif->lng);
             $photoEntity->setUserId($userId);
-            $photoEntity->setTakenDate($exif->takenDate);
+            $photoEntity->setDateTaken($exif->dateTaken);
             $this->photoMapper->insert($photoEntity);
         }
     }
@@ -163,7 +163,7 @@ class PhotofilesService {
                 $file_object->lat = $LatM * ($gps['LatDegree'] + ($gps['LatMinute'] / 60) + ($gps['LatgSeconds'] / 3600));
                 $file_object->lng = $LongM * ($gps['LongDegree'] + ($gps['LongMinute'] / 60) + ($gps['LongSeconds'] / 3600));
                 if (isset($exif["DateTimeOriginal"])) {
-                    $file_object->takenDate = strtotime($exif["DateTimeOriginal"]);
+                    $file_object->dateTaken = strtotime($exif["DateTimeOriginal"]);
                 }
                  return $file_object;
             }
