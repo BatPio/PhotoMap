@@ -146,7 +146,7 @@ export default class MapView {
         this.map.setView(latlng, 2);
         var message = "<h2>" + t('photomap', 'You have not added photos yet?') + "</h2>" +
             "<p>"+ t('photomap', 'Add photos to the cloud. Photos containing data about the geographical location will be automatically pinned to the map.') + "</p>" +
-            "<p>"+ t('photomap', 'If photos already are in cloud, You can pin them to the map using command {command}', {"command" : "<b>occ&nbsp;photomap:rescanPhotos</b>"}, undefined, {escape: false}) + "</p>";
+            "<p>"+ t('photomap', 'If photos already are in cloud, You can pin them to the map using command {command}', {"command" : "<b>occ&nbsp;photoMap:rescanPhotos</b>"}, undefined, {escape: false}) + "</p>";
         this.showPopup(latlng, message);
     }
 
