@@ -68,7 +68,6 @@ export default class MapView {
      * @param {*} images array of markers: {id, lat, lng, url, thumbnail}
      */
     showPhotoMarkers(markers) {
-        this.markers = markers;
         this.layer
             .add(markers)
             .addTo(this.map);
@@ -131,16 +130,6 @@ export default class MapView {
         }
     }
 
-    getVisibleMarkers() {
-        if (this.markers === undefined) {
-            return undefined;
-        }
-        var _map = this.map;
-        return this.markers.filter(function(marker) {
-            return _map.getBounds().contains(L.latLng(marker.lat, marker.lng));
-        });
-    }
-
     showFirstRunMessage() {
         var latlng = [25, 0];
         this.map.setView(latlng, 2);
@@ -159,6 +148,11 @@ export default class MapView {
 
     getZoomLevel() {
         return this.map.getZoom();
+    }
+
+    getBounds() {
+        var bounds = this.map.getBounds();
+        return [[bounds.getSouth(), bounds.getWest()],[bounds.getNorth(), bounds.getEast()]];
     }
 
 }

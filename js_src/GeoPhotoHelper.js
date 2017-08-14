@@ -74,4 +74,10 @@ export default class GeoPhotoHelper {
         return ids;
     }
 
+    boundsIntersecs(bound1, bound2) {
+        var latIntersects = (bound2[1][0] >= bound1[0][0]) && (bound2[0][0] <= bound1[1][0]);
+        var lngIntersects = (bound2[1][1] >= bound1[0][1]) && (bound2[0][1] <= bound1[1][1]);
+        return latIntersects && lngIntersects;
+    }
+
 }

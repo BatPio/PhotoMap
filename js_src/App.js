@@ -153,12 +153,16 @@ export default class App {
     }
 
     getMapVisibleAlbumsIds() {
-        var visibleMarkers = this.mapView.getVisibleMarkers();
-        var idsSet = new Set();
-        visibleMarkers.forEach(function(item){
-            idsSet.add(item.albumId);
-        });
-        return [...idsSet];
+        var mapBounds = this.mapView.getBounds();
+        var ids = [];
+        var albumInfosList = this.albumsInfoCache.getAllAlbumsInfo();
+        albumInfosList.forEach(function(item){
+            var albumBounds = this.gpHelper.calculateGeoPhotosBoundPoints(item.geoPhotos);
+            if (this.gpHelper.boundsIntersecs(albumBounds, mapBounds)) {
+                ids.push(item.id);
+            }
+        }, this);
+        return ids;
     }
 
     callForImages() {
