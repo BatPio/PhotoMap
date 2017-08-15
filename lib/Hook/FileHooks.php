@@ -15,6 +15,7 @@ namespace OCA\PhotoMap\Hook;
 use OCA\PhotoMap\Service\PhotofilesService;
 use OC\Files\Filesystem;
 use OC\Files\View;
+use OCP\Files\FileInfo;
 use OCP\ILogger;
 use OCP\Files\Node;
 use OCP\Files\IRootFolder;
@@ -41,7 +42,7 @@ class FileHooks {
 		$fileWriteCallback = function(\OCP\Files\Node $node) {
 			if($this->isUserNode($node)) {
 				$this->logger->warning("LOGPHOTOMAP". $node->getInternalPath() .">>". $node->getStorage()->getId().">".$node->getStorage()->isLocal().">".$node->getType());
-				$this->photofilesService->addFile($node);
+				$this->photofilesService->addByFile($node);
 			}
 		};
 		$this->root->listen('\OC\Files', 'postWrite', $fileWriteCallback);
@@ -49,7 +50,11 @@ class FileHooks {
 		$fileDeletionCallback = function(\OCP\Files\Node $node) {
 			if($this->isUserNode($node)) {
 				$this->logger->warning("LOGPHOTOMAP DELETING". $node->getInternalPath() .">>". $node->getStorage()->getId().">".$node->getStorage()->isLocal().">".$node->getType());
-				$this->photofilesService->deleteFile($node);
+				if ($node->getType() === FileInfo::TYPE_FOLDER) {
+					$this->photofilesService->deleteByFolder($node);
+				} else {
+					$this->photofilesService->deleteByFile($node);
+				}
 			}
 		};
 		$this->root->listen('\OC\Files', 'preDelete', $fileDeletionCallback);
@@ -61,7 +66,11 @@ class FileHooks {
 		$node = $this->getNodeForPath($params['filePath']);
 		if($this->isUserNode($node)) {
 			$this->logger->warning("LOGPHOTOMAP RESTORED". $node->getInternalPath() .">>". $node->getStorage()->getId().">".$node->getStorage()->isLocal().">".$node->getType());
-			$this->photofilesService->addFile($node);
+			if ($node->getType() === FileInfo::TYPE_FOLDER) {
+				$this->photofilesService->addByFolder($node);
+			} else {
+				$this->photofilesService->addByFile($node);
+			}
 		}
 	}
 
@@ -75,7 +84,8 @@ class FileHooks {
 	 * Ugly Hack, find API way to check if file is added by user.
 	 */
 	private function isUserNode(\OCP\Files\Node $node) {
-		return strpos($node->getStorage()->getId(), "home::", 0) === 0;
+		//return strpos($node->getStorage()->getId(), "home::", 0) === 0;
+		return $node->getStorage()->instanceOfStorage('\OC\Files\Storage\Home');
 	}
 
 }

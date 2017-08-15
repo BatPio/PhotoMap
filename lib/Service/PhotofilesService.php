@@ -44,7 +44,7 @@ class PhotofilesService {
         }
     }
 
-    public function addFile(Node $file) {
+    public function addByFile(Node $file) {
         $this->logger->warning("FIle hook" . $file->getInternalPath(). $file->getName());
         $userFolder = $this->root->getUserFolder($file->getOwner()->getUID());
         if($this->isPhoto($file)) {
@@ -52,9 +52,23 @@ class PhotofilesService {
         }
     }
 
-    public function deleteFile(Node $file) {
+    public function addByFolder(Node $folder) {
+        $photos = $this->gatherPhotoFiles($folder, true);
+        foreach($photos as $photo) {
+            $this->addPhoto($photo, $folder->getOwner()->getUID());
+        }
+    }
+
+    public function deleteByFile(Node $file) {
         $this->photoMapper->deleteByFileId($file->getId());
         $this->logger->warning("FIle hook deleted" . $file->getName(). " fr:" . $file->getId());
+    }
+
+    public function deleteByFolder(Node $folder) {
+        $photos = $this->gatherPhotoFiles($folder, true);
+        foreach($photos as $photo) {
+            $this->photoMapper->deleteByFileId($photo->getId());
+        }
     }
 
     private function addPhoto($photo, $userId) {
