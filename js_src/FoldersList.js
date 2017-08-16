@@ -26,7 +26,6 @@ export default class FoldersList extends React.Component {
     constructor(props) {
         super(props);
         let initialItemsState = {};
-        console.log(props.list);
         props.list.forEach(function(element) {
             initialItemsState[element.id]= {
                 isOpened: false,
@@ -38,13 +37,11 @@ export default class FoldersList extends React.Component {
     }
       
     handleToggle (headerIndex) {
-        console.log("toggle");
         let newData = Object.assign({}, this.state.itemsState)
         newData[headerIndex].isOpened = !newData[headerIndex].isOpened
         this.setState(
         newData
         )
-        console.log(this.props.onItemsNeededFunc);
     }
 
     onFolderClick(itemId) {

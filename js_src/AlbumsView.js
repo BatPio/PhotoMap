@@ -42,13 +42,11 @@ export default class AlbumsView {
         })(this.app);
         var onAlbumClick = (function(_app){
             return function (albumId) {
-                console.log(albumId);
                 _app.onAlbumClicked(albumId);
             }
         })(this.app); 
         var onPhotoClick = (function(_app){
             return function (albumId, photoId) {
-                console.log(albumId+":"+photoId);
                 _app.onAlbumItemClicked(albumId, photoId);
             }
         })(this.app); 

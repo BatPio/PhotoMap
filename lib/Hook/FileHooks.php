@@ -41,7 +41,6 @@ class FileHooks {
 	public function register() {
 		$fileWriteCallback = function(\OCP\Files\Node $node) {
 			if($this->isUserNode($node)) {
-				$this->logger->warning("LOGPHOTOMAP". $node->getInternalPath() .">>". $node->getStorage()->getId().">".$node->getStorage()->isLocal().">".$node->getType());
 				$this->photofilesService->addByFile($node);
 			}
 		};
@@ -49,7 +48,6 @@ class FileHooks {
 
 		$fileDeletionCallback = function(\OCP\Files\Node $node) {
 			if($this->isUserNode($node)) {
-				$this->logger->warning("LOGPHOTOMAP DELETING". $node->getInternalPath() .">>". $node->getStorage()->getId().">".$node->getStorage()->isLocal().">".$node->getType());
 				if ($node->getType() === FileInfo::TYPE_FOLDER) {
 					$this->photofilesService->deleteByFolder($node);
 				} else {
@@ -65,7 +63,6 @@ class FileHooks {
 	public static function restore($params) {
 		$node = $this->getNodeForPath($params['filePath']);
 		if($this->isUserNode($node)) {
-			$this->logger->warning("LOGPHOTOMAP RESTORED". $node->getInternalPath() .">>". $node->getStorage()->getId().">".$node->getStorage()->isLocal().">".$node->getType());
 			if ($node->getType() === FileInfo::TYPE_FOLDER) {
 				$this->photofilesService->addByFolder($node);
 			} else {

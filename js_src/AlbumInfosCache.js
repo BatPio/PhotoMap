@@ -82,7 +82,6 @@ export default class AlbumInfosCache {
     getGeoPhotoInfo(albumId, photoId) {
         var photos = this.getAlbumInfo(albumId).geoPhotos;
         for (var i = 0; i < photos.length; i++) {
-            console.log(photos[i]);
             if (photos[i].fileId == photoId) {
                 return photos[i];
             }

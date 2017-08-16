@@ -45,7 +45,6 @@ class PhotofilesService {
     }
 
     public function addByFile(Node $file) {
-        $this->logger->warning("FIle hook" . $file->getInternalPath(). $file->getName());
         $userFolder = $this->root->getUserFolder($file->getOwner()->getUID());
         if($this->isPhoto($file)) {
             $this->addPhoto($file, $file->getOwner()->getUID());
@@ -61,7 +60,6 @@ class PhotofilesService {
 
     public function deleteByFile(Node $file) {
         $this->photoMapper->deleteByFileId($file->getId());
-        $this->logger->warning("FIle hook deleted" . $file->getName(). " fr:" . $file->getId());
     }
 
     public function deleteByFolder(Node $folder) {
@@ -134,10 +132,13 @@ class PhotofilesService {
     }
 
     private function hasExifGeoTags($exif) {
-		if (count($exif["GPSLatitude"]) == 3 AND count($exif["GPSLongitude"]) == 3) {
-			return true;
+        if (!isset($exif["GPSLatitude"]) OR !isset($exif["GPSLongitude"])) {
+            return false;
+        }
+		if (count($exif["GPSLatitude"]) != 3 OR count($exif["GPSLongitude"]) != 3) {
+			return false;
 		}
-		return false;
+		return true;
 	}
 
     private function getExif($file) {

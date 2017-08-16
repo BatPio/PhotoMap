@@ -60,7 +60,6 @@ export default class App {
             var tracksOutOfMapBoundsIds = this.gpHelper.calculateOrphanedTracks(visibleAlbumsIds, currentTracksIds);
             if (tracksOutOfMapBoundsIds && tracksOutOfMapBoundsIds.length > 0) {
                 //Hide tracks out of map bounds.
-                console.log(tracksOutOfMapBoundsIds);
                 this.mapView.hideTracks(tracksOutOfMapBoundsIds);
             }
             for (var i = 0; i < visibleAlbumsIds.length; i++) {
