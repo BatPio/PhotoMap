@@ -143,7 +143,7 @@ class PhotofilesService {
 
     private function getExif($file) {
         $path = $file->getStorage()->getLocalFile($file->getInternalPath());
-        $exif = exif_read_data($path);
+        $exif = @exif_read_data($path);
         //Check photos are on the earth
         if($this->hasExifGeoTags($exif) AND $exif["GPSLatitude"][0]<90 AND $exif["GPSLongitude"][0]<180){
             
