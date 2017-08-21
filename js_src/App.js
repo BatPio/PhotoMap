@@ -119,7 +119,7 @@ export default class App {
             }
             albumViewInfosList.push({
                 id: item.id,
-                label: item.name,
+                label: item.path,
                 link: this.generateGalleryUrl(item.path.substring(1, item.path.length)),
                 filesList : photosList
             });

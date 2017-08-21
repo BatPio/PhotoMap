@@ -1,6 +1,6 @@
 #visibleFolders {
     height: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 #visibleFolders .folder-item {
@@ -14,6 +14,14 @@
 #visibleFolders .collapsible a {
     width: 185px;
     display: inline-block;
+}
+
+#visibleFolders .collapsible a.icon-folder{
+    white-space: nowrap;                   
+    overflow: hidden;              /* "overflow" value must be different from "visible" */   
+    text-overflow: ellipsis;  
+    direction:rtl;
+    text-align:left;
 }
 
 #visibleFolders .collapsible .folder-link{
