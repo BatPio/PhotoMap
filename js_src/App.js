@@ -78,11 +78,11 @@ export default class App {
     }
 
     generateThumbnailUrl(filename) {
-        return "/index.php/core/preview.png?file=" +filename + "&x=32&y=32";
+        return "/index.php/core/preview.png?file=" + encodeURI(filename) + "&x=32&y=32";
     }
 
     generateImageUrl(filename) {
-        return "/index.php/core/preview.png?file=" +filename + "&x=400&y=400";
+        return "/index.php/core/preview.png?file=" + encodeURI(filename) + "&x=400&y=400";
     }
 
     generateGalleryUrl(path) {
