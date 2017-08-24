@@ -13,7 +13,6 @@
 import App from './App';
 
 $(document).ready(() => {
-	var checkbox = document.getElementById('filter-albums-to-map');
 	var app = new App();
 	app.callForImages();
 });
