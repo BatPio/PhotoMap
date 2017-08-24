@@ -129,6 +129,7 @@ appstore:
 	tar --exclude-vcs \
 	--exclude=$(project_dir)/build \
 	--exclude=$(project_dir)/js_src \
+	--exclude=$(project_dir)/js/main.js.map \
 	--exclude=$(project_dir)/node_modules \
 	--exclude=$(project_dir)/webpack \
 	--exclude=$(project_dir)/.gitattributes \

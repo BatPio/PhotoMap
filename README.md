@@ -1,7 +1,6 @@
-# !!!Application under development. Not ready for production usage!!!
-Milestone 1.0 progress can be viewed [here](http://github.com/BatPio/PhotoMap/milestone/1)
-
 # Photo Map
+
+Shows geotagged photos on map
 
 ![screenshot1](https://raw.githubusercontent.com/BatPio/PhotoMap/master/screenshots/1.png)
 
