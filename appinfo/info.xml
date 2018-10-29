@@ -14,7 +14,7 @@
       <filesystem/>
     </types>
     <dependencies>
-      <nextcloud min-version="11" max-version="12"/>
+      <nextcloud min-version="11" max-version="15"/>
     </dependencies>
     <commands>
 		  <command>OCA\PhotoMap\Command\RescanPhotos</command>
